@@ -1,0 +1,69 @@
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+
+int import_file (int reorder array[]);
+void reading_array (int reorder array [], int size);
+void swap_array (int reorder_array[], int y);
+
+int main () {
+  ofstream output_file ("output.txt");
+  int reorder_array[240000] = {0};
+  int size = import_file (reorder_array);
+
+  reading_array (reorder_array, size);
+
+  for (int i = 0; size > 1; i++) {
+    if (size - 1 == 1) {
+      output_file << reorder_array[i];
+    } else if (size > 1) {
+      output_file << reorder_array[i] << endl;
+    }
+  }
+
+  output_file.close();
+
+  std::cout << "The numbers are all in order!" << endl << "To quit the program, just enter a letter or number and hit enter." << std::endl;
+
+  char dummy;
+  std::cin >> dummy;
+
+}
+
+int import_file (int reorder_array[]) {
+  ifstream text_file;
+  text_file.open ("input.txt");
+
+  int size = 0;
+
+  if (!text_file.is_open()) {
+    std::cout << "There isn't a text file!" << std::endl;
+  }
+
+  while (!text_file.eof()) {
+    text_file >> reorder_array[size];
+    size++;
+  }
+
+  text_file.close();
+  return size;
+}
+
+void reading_array (int reorder_array[], int size) {
+  for (int x = 0; x < size - 1; x++) {
+    for (int y = 0; y < size - 1; y++) {
+      if (reorder_array[y] > reorder_array [y+1]) {
+        swap_array(reorder_array, y);
+      }
+    }
+  }
+}
+
+void swap_array (int reorder_array[], int y) {
+  int temp;
+
+  temp = reorder_array[y];
+  reorder_array[y] = reorder_array[y + 1];
+  reorder_array[y + 1] = temp;
+}
